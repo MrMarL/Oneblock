@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Пользователь/Downloads/PlaceholderAPI-2.10.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Пользователь/Desktop/cr/craftbukkit-1.17.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Пользователь/Desktop/cr/spigot-1.7.10-SNAPSHOT-b1657.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
