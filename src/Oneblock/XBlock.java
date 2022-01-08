@@ -31,8 +31,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.material.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -83,45 +81,45 @@ public final class XBlock {
 
     private XBlock() { }
 
-    public static boolean isCake(@Nullable Material material) {
+    public static boolean isCake(Material material) {
         return material == Material.CAKE || material == BlockMaterial.CAKE_BLOCK.material;
     }
 
-    public static boolean isWheat(@Nullable Material material) {
+    public static boolean isWheat(Material material) {
         return material == Material.WHEAT || material == BlockMaterial.CROPS.material;
     }
 
-    public static boolean isSugarCane(@Nullable Material material) {
+    public static boolean isSugarCane(Material material) {
         return material == Material.SUGAR_CANE || material == BlockMaterial.SUGAR_CANE_BLOCK.material;
     }
 
-    public static boolean isBeetroot(@Nullable Material material) {
+    public static boolean isBeetroot(Material material) {
         return material == Material.BEETROOT || material == Material.BEETROOTS || material == BlockMaterial.BEETROOT_BLOCK.material;
     }
 
-    public static boolean isNetherWart(@Nullable Material material) {
+    public static boolean isNetherWart(Material material) {
         return material == Material.NETHER_WART || material == BlockMaterial.NETHER_WARTS.material;
     }
 
-    public static boolean isCarrot(@Nullable Material material) {
+    public static boolean isCarrot(Material material) {
         return material == Material.CARROT || material == Material.CARROTS;
     }
 
-    public static boolean isMelon(@Nullable Material material) {
+    public static boolean isMelon(Material material) {
         return material == Material.MELON || material == Material.MELON_SLICE || material == BlockMaterial.MELON_BLOCK.material;
     }
 
-    public static boolean isPotato(@Nullable Material material) {
+    public static boolean isPotato(Material material) {
         return material == Material.POTATO || material == Material.POTATOES;
     }
     
-    public static boolean setCustomType(@Nonnull Location loc, String command) {
+    public static boolean setCustomType(Location loc, String command) {
     	Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
     			String.format(command, loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
     	return true;
     }
     
-    public static boolean setType(@Nonnull Block block, @Nullable Object material_) {
+    public static boolean setType(Block block, Object material_) {
     	XMaterial material = null;
     	if (material_.getClass() == XMaterial.class)
     		material = (XMaterial)material_;
@@ -291,7 +289,7 @@ public final class XBlock {
         }
     }
 
-    public static boolean isAir(@Nullable Material material) {
+    public static boolean isAir(Material material) {
         if (ISFLAT) {
             // material.isAir() doesn't exist for 1.13
             switch (material) {
@@ -357,7 +355,6 @@ public final class XBlock {
         REDSTONE_TORCH_ON, REDSTONE_TORCH_OFF,
         REDSTONE_COMPARATOR_ON, REDSTONE_COMPARATOR_OFF;
 
-        @Nullable
         private final Material material;
 
         BlockMaterial() {
