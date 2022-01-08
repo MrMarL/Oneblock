@@ -24,11 +24,9 @@ import org.bukkit.Bukkit;
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
-import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.material.*;
@@ -156,15 +154,7 @@ public final class XBlock {
         boolean update = false;
 
         if (handling == LegacyMaterial.Handling.COLORABLE) {
-            if (state instanceof Banner) {
-                Banner banner = (Banner) state;
-                String xName = material.name();
-                int colorIndex = xName.indexOf('_');
-                String color = xName.substring(0, colorIndex);
-                if (color.equals("LIGHT")) color = xName.substring(0, "LIGHT_".length() + 4);
-
-                banner.setBaseColor(DyeColor.valueOf(color));
-            } else state.setRawData(material.getData());
+            state.setRawData(material.getData());
             update = true;
         } else if (handling == LegacyMaterial.Handling.WOOD_SPECIES) {
             // Wood doesn't exist in 1.8

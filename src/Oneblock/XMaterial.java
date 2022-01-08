@@ -24,10 +24,6 @@ package Oneblock;
  */
 
 import com.google.common.base.Enums;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.WordUtils;
@@ -38,10 +34,8 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * <b>XMaterial</b> - Data Values/Pre-flattening<br>
@@ -1405,34 +1399,6 @@ public enum XMaterial {
      * @since 5.1.0
      */
     private static final Map<String, XMaterial> NAMES = new HashMap<>();
-
-    /**
-     * Guava (Google Core Libraries for Java)'s cache for performance and timed caches.
-     * For strings that match a certain XMaterial. Mostly cached for configs.
-     *
-     * @since 1.0.0
-     */
-    private static final Cache<String, XMaterial> NAME_CACHE = CacheBuilder.newBuilder()
-            .expireAfterAccess(1, TimeUnit.HOURS)
-            .build();
-    /**
-     * This is used for {@link #isOneOf(Collection)}
-     *
-     * @since 3.4.0
-     */
-    private static final LoadingCache<String, Pattern> CACHED_REGEX = CacheBuilder.newBuilder()
-            .expireAfterAccess(3, TimeUnit.HOURS)
-            .build(new CacheLoader<String, Pattern>() {
-                @Override
-                public Pattern load(@Nonnull String str) {
-                    try {
-                        return Pattern.compile(str);
-                    } catch (PatternSyntaxException ex) {
-                        ex.printStackTrace();
-                        return null;
-                    }
-                }
-            });
     /**
      * The maximum data value in the pre-flattening update which belongs to {@link #VILLAGER_SPAWN_EGG}<br>
      * https://minecraftitemids.com/types/spawn-egg
@@ -1598,14 +1564,9 @@ public enum XMaterial {
      */
     @Nullable
     private static XMaterial requestOldXMaterial(@Nonnull String name, byte data) {
-        String holder = name + data;
-        XMaterial cache = NAME_CACHE.getIfPresent(holder);
-        if (cache != null) return cache;
-
         for (XMaterial material : VALUES) {
             // Not using material.name().equals(name) check is intended.
             if ((data == UNKNOWN_DATA_VALUE || data == material.data) && material.anyMatchLegacy(name)) {
-                NAME_CACHE.put(holder, material);
                 return material;
             }
         }
@@ -1904,12 +1865,6 @@ public enum XMaterial {
             if (checker.startsWith("CONTAINS:")) {
                 comp = format(checker.substring(9));
                 if (name.contains(comp)) return true;
-                continue;
-            }
-            if (checker.startsWith("REGEX:")) {
-                comp = comp.substring(6);
-                Pattern pattern = CACHED_REGEX.getUnchecked(comp);
-                if (pattern != null && pattern.matcher(name).matches()) return true;
                 continue;
             }
 
